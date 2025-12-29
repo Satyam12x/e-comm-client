@@ -57,18 +57,25 @@ const Register = () => {
     }
 
     setLoading(true);
-    try {
-      // Step 1: Initialize registration (sends OTP)
-      await register({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        phone: formData.phone,
-      });
+        try {
+            // Step 1: Initialize registration (sends OTP)
+            const res = await register({
+                name: formData.name,
+                email: formData.email,
+                password: formData.password,
+                phone: formData.phone,
+            });
 
-      setSuccess('Verification code sent to your email!');
-      setStep(2);
-      setTimeLeft(600); // Reset timer
+            // If backend returned a token (auto-login), then redirect to home.
+            if (res?.data?.token || res?.data?.user?.token) {
+                navigate('/');
+                return;
+            }
+
+            // Otherwise expect OTP to be sent and show verification step
+            setSuccess('Verification code sent to your email!');
+            setStep(2);
+            setTimeLeft(600); // Reset timer
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed');
     } finally {
