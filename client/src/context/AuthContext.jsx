@@ -45,7 +45,8 @@ export const AuthProvider = ({ children }) => {
 
   // Step 1: Request OTP (Does NOT log in the user yet)
   const register = async (userData) => {
-    const { data } = await api.post('/auth/register', userData);
+    const res = await api.post('/auth/register', userData);
+    const data = res.data;
     // Some backends may return a token immediately (no OTP required)
     // If a token is present, persist and set user state so app behaves consistently.
     if (data?.data?.token) {
@@ -57,7 +58,8 @@ export const AuthProvider = ({ children }) => {
         console.error('Failed to persist auth after register', e);
       }
     }
-    return data;
+    // Return the full axios response so callers can inspect headers/status if needed
+    return res;
   };
 
   // Step 2: Verify OTP (Logs in the user)

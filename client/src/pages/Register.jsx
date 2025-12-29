@@ -67,7 +67,8 @@ const Register = () => {
             });
 
             // If backend returned a token (auto-login), then redirect to home.
-            if (res?.data?.token || res?.data?.user?.token) {
+            // `register` now returns the full axios response, token lives at res.data.data.token
+            if (res?.data?.data?.token) {
                 navigate('/');
                 return;
             }
