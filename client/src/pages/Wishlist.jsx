@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Heart, ShoppingCart, Trash2, ArrowLeft } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
-import testImage from '../assets/test-image.jpg';
+import testImage from '../assets/banner-3.jpg';
 
 const Wishlist = () => {
   const { wishlist, loading, removeFromWishlist, fetchWishlist } = useWishlist();
